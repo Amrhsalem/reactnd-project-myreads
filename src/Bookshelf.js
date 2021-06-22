@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Book from "./Book";
 
+// This Component is used to render the three main shelves of the MainPage
 class Bookshelf extends Component {
   render() {
     return (
@@ -15,6 +16,7 @@ class Bookshelf extends Component {
                 authors={book.authors}
                 title={book.title}
                 changeShelf={this.props.onChangeShelf}
+                shelf={this.props.shelf}
                 book={book}
               />
             ))}

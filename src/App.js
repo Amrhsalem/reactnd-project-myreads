@@ -8,29 +8,24 @@ import Search from "./search";
 import MainPage from "./MainPage";
 
 class BooksApp extends React.Component {
-  // state = {
-  //   /**
-  //    * TODO: Instead of using this state variable to keep track of which page
-  //    * we're on, use the URL in the browser's address bar. This will ensure that
-  //    * users can use the browser's back and forward buttons to navigate between
-  //    * pages, as well as provide a good URL they can bookmark and share.
-  //    */
-
-  // };
+  // Added constructor method to initiate state
   constructor(props) {
     super(props);
     this.state = {
       books: [],
-      showSearchPage: false,
+      // removed showSearchPages state as it is no longer needed
     };
   }
+
+  // componentDidMount method to retrieve books data from BooksAPI and set the initial state
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books });
     });
   }
 
-  //the following method is used to change the shelf in the backend and then update the state with the new value.
+  //The following method is used to change the shelf in the backend (BooksAPI) and then update the state with the new value.
+  //  It is passed as a prop down to the smallest component (Book)
   changeShelf = (book, newShelf) => {
     BooksAPI.update(book, newShelf).then(() => {
       BooksAPI.getAll().then((books) => {
@@ -47,6 +42,7 @@ class BooksApp extends React.Component {
       { name: "Read", id: "read" },
     ];
     return (
+      // the render function returns two routes home ("/") and search ("/search")
       <div className="app">
         <Route
           exact

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 
+// Book is the smallest building Component for the app and it is used to render every book elements in the UI in both app pages
 class Book extends Component {
   render() {
     return (
       <div>
-        <li key={this.props.key}>
+        <li>
           <div className="book">
             <div className="book-top">
               <div
