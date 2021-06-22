@@ -18,7 +18,15 @@ class Book extends Component {
               />
               <div className="book-shelf-changer">
                 <select
-                  value={this.props.book.shelf ? this.props.book.shelf : "none"}
+                  value={
+                    this.props.booksOnShelf.filter(
+                      (b) => b.id === this.props.book.id
+                    ).length == 1 //comparing books on shelf with the current book, should return true if it is present.
+                      ? this.props.booksOnShelf.filter(
+                          (b) => b.id === this.props.book.id
+                        )[0].shelf
+                      : "none"
+                  }
                   onChange={(event) => {
                     console.log("change");
                     this.props.changeShelf(this.props.book, event.target.value);
@@ -37,7 +45,7 @@ class Book extends Component {
 
             <div className="book-title">{this.props.title}</div>
             <div className="book-authors">
-              {this.props.authors && this.props.authors.join(", ")}{" "}
+              {this.props.authors && this.props.authors.join(", ")}
               {/* checks if authors property exists before printing it to page */}
             </div>
           </div>

@@ -17,6 +17,7 @@ class Bookshelf extends Component {
                 title={book.title}
                 changeShelf={this.props.onChangeShelf}
                 shelf={this.props.shelf}
+                booksOnShelf={this.props.booksOnShelf}
                 book={book}
               />
             ))}

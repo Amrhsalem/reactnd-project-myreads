@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 class MainPage extends Component {
   render() {
-    const { changeShelf, shelves, books } = this.props;
+    const { changeShelf, shelves, booksOnShelf } = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -16,7 +16,7 @@ class MainPage extends Component {
               <Bookshelf
                 key={shelf.id}
                 shelf={shelf.name}
-                booksOnShelf={books.filter((book) => {
+                booksOnShelf={booksOnShelf.filter((book) => {
                   return book.shelf === shelf.id;
                 })}
                 onChangeShelf={changeShelf}

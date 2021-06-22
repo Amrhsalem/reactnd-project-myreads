@@ -12,15 +12,17 @@ class BooksApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: [],
+      booksOnShelf: [],
+      shownBooks: [],
+      error: "",
       // removed showSearchPages state as it is no longer needed
     };
   }
 
   // componentDidMount method to retrieve books data from BooksAPI and set the initial state
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books });
+    BooksAPI.getAll().then((booksOnShelf) => {
+      this.setState({ booksOnShelf });
     });
   }
 
@@ -28,10 +30,26 @@ class BooksApp extends React.Component {
   //  It is passed as a prop down to the smallest component (Book)
   changeShelf = (book, newShelf) => {
     BooksAPI.update(book, newShelf).then(() => {
-      BooksAPI.getAll().then((books) => {
-        this.setState({ books });
+      BooksAPI.getAll().then((booksOnShelf) => {
+        this.setState({ booksOnShelf });
       });
     });
+  };
+  onSearch = (query) => {
+    if (query.length > 0) {
+      BooksAPI.search(query).then((result) => {
+        if (result.error) {
+          this.setState(() => ({
+            shownBooks: [],
+            error: result.error,
+          }));
+        } else {
+          this.setState(() => ({ shownBooks: result }));
+        }
+      });
+    } else {
+      this.setState({ shownBooks: [] });
+    }
   };
 
   render() {
@@ -47,7 +65,15 @@ class BooksApp extends React.Component {
         <Route
           exact
           path="/search"
-          render={() => <Search changeShelf={this.changeShelf} />}
+          render={() => (
+            <Search
+              changeShelf={this.changeShelf}
+              onSearch={this.onSearch}
+              shownBooks={this.state.shownBooks}
+              error={this.state.error}
+              booksOnShelf={this.state.booksOnShelf}
+            />
+          )}
         />
         <Route
           exact
@@ -55,7 +81,7 @@ class BooksApp extends React.Component {
           render={() => (
             <MainPage
               shelves={shelves}
-              books={this.state.books}
+              booksOnShelf={this.state.booksOnShelf}
               changeShelf={this.changeShelf}
             />
           )}
